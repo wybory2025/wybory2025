@@ -13,12 +13,12 @@ Analiza przebiega w dwóch głównych etapach, aby precyzyjnie wyizolować badan
 W pierwszym kroku budujemy model regresji liniowej, który szacuje poparcie dla danego kandydata w każdej komisji. Model ten "kontroluje" (uwzględnia) szereg czynników, które w naturalny sposób wpływają na wynik:
 
 -   **Bazowe poparcie dla kandydata:** Mierzone jako jego wynik w tej samej komisji w I turze wyborów.
--   **Wskaźnik presji:** Zmienna opisująca, jak bardzo "jednostronna" jest dana gmina.
+-   **Wskaźnik presji:** Zmienna opisująca, jak bardzo "przeciwna" jednemu z kandydatów jest obsada danej komisji.
 -   **Opcjonalne zmienne kontrolne:**
     -   Zmiana frekwencji między I a II turą.
     -   Stopień urbanizacji.
 
-Kluczowym elementem tego etapu jest zastosowanie **efektów stałych** na poziomie powiatu (lub opcjonalnie województwa). Oznacza to, że model uwzględnia stałą, niezmienną specyfikę każdego regionu – jego kulturę polityczną, demografię czy historię. Dzięki temu porównujemy ze sobą tylko komisje w ramach tego samego powiatu.
+Kluczowym elementem tego etapu jest zastosowanie **efektów stałych** na poziomie powiatu (lub opcjonalnie województwa). Oznacza to, że model uwzględnia stałą, niezmienną specyfikę każdego regionu – efekty jego kultury politycznej, demografii czy historii. Dzięki temu porównujemy ze sobą tylko komisje w ramach tego samego powiatu.
 
 Wynikiem tego etapu **nie są** współczynniki regresji, lecz **residua** (reszty z modelu). Każda reszta to część wyniku, której model **nie był w stanie wyjaśnić** za pomocą powyższych zmiennych. To właśnie te "niewyjaśnione" anomalie – dodatnie lub ujemne odchylenia od przewidywań – przechodzą do drugiego etapu.
 
@@ -44,23 +44,13 @@ Po odfiltrowaniu statystycznie niereprezentatywnych komisji (z mniej niż 15 gł
 
 ### 1. Niewyjaśnione straty głosów skoncentrowane w określonych komisjach
 
--   **Oszacowany całkowity efekt:** -80,220 głosów dla Rafała Trzaskowskiego (na poziomie ufności 99.999%).
--   **Interpretacja:** Analiza wykazała, że **niewyjaśnione straty głosów występują niemal wyłącznie w komisjach o profilu neutralnym oraz anty-RT**. W tych obwodach wynik kandydata był systematycznie i statystycznie istotnie niższy, niż przewidywał model oparty na twardych danych (wynik z I tury, specyfika regionu).
+-   **Oszacowany całkowity efekt:** -462,850 głosów dla Rafała Trzaskowskiego. Model dla Karola Nawrockiego pokazuje dodatkowo +123,279 nadmiarowych głosów na KN.
+-   **Interpretacja:** Analiza wykazała, że **niewyjaśnione straty głosów występują niemal wyłącznie w komisjach o profilu neutralnym oraz anty-RT**. W tych obwodach wynik kandydata był systematycznie i statystycznie istotnie niższy, niż przewidywał model oparty na oficjalnych danych (wynik z I tury, specyfika regionu), według których i tak wygrał Karol Nawrocki.
 
-### 2. Brak anomalii w komisjach o profilu pro-RT
+### 2. Znacznie wyższe wyniki w komisjach o profilu pro-RT
 
--   **Kluczowe odkrycie:** W komisjach, gdzie zwolennicy Rafała Trzaskowskiego mieli wyraźną większość (`leaning_score` > 0.6), **nie zaobserwowano statystycznie istotnych negatywnych anomalii**. Wręcz przeciwnie, wynik był zgodny z oczekiwaniami lub nawet minimalnie wyższy.
--   **Wniosek:** To sugeruje, że w komisjach kontrolowanych przez zwolenników RT proces liczenia głosów przebiegał prawidłowo. Problem nie był więc uniwersalny, lecz skoncentrowany w miejscach, gdzie mechanizmy kontroli ze strony pro-RT mogły być osłabione.
-
-### Jak interpretować nowy wykres dla Rafała Trzaskowskiego?
-
-![Wykres wyników dla prop_rt_r2](gam_prop_rt_r2.png)
-
-Nowy wykres, oparty na przefiltrowanych danych, opowiada znacznie bardziej precyzyjną historię:
-
-1.  **Linia trendu przecina zero:** Najważniejszą zmianą jest fakt, że czerwona linia trendu (i jej obszar niepewności) zdecydowanie wchodzi na terytorium dodatnie po prawej stronie wykresu. Oznacza to, że hipoteza o "systematycznym zaniżeniu wyniku wszędzie" jest **nieprawdziwa**.
-2.  **Gdzie leży problem:** Wyraźnie widać, że niewyjaśnione straty (wartości poniżej 0.0 p.p.) koncentrują się w przedziale od -1.0 do około +0.6 na skali `leaning_score`.
-3.  **Wzmocnienie hipotezy o kontroli:** Ten asymetryczny obraz silnie wspiera tezę, że kluczową rolę odgrywały mechanizmy kontroli. Tam, gdzie przedstawiciele pro-RT byli w mniejszości w składzie komisji, ich zdolność do nadzoru mogła być niewystarczająca, co koreluje z pojawieniem się negatywnych anomalii.
+-   **Kluczowe odkrycie:** W komisjach, gdzie zwolennicy Rafała Trzaskowskiego mieli wyraźną większość (`leaning_score` > 0.6), wynik był istotnie wyższy od oczekiwań modelu opartego na oficjalnie ogłoszonych wynikach.
+-   **Wniosek:** W komisjach kontrolowanych przez zwolenników RT proces liczenia głosów przebiegał w sposób znacznie odmienny od komisji z udziałem komitetów anty-RT.
 
 ## Użycie skryptu
 
