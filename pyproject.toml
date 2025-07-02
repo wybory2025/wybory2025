@@ -1,0 +1,21 @@
+[project]
+name = "likelihood"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aesara>=2.9.3",
+    "joblib>=1.5.1",
+    "linearmodels>=6.1",
+    "numpy>=2.2.6",
+    "pandas>=2.3.0",
+    "pymannkendall>=1.4.3",
+    "pymc>=5.23.0",
+    "python-levenshtein>=0.27.1",
+    "scikit-posthocs>=0.11.4",
+    "scipy>=1.15.3",
+    "seaborn>=0.13.2",
+    "statsmodels>=0.14.4",
+    "tqdm>=4.67.1",
+]
